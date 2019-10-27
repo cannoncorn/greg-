@@ -11,6 +11,8 @@ Application::Application()
 
     playerVel = 3;
     playerHp = 20;
+
+    gregHp = 100;
 }
 
 void Application::load()
@@ -21,6 +23,10 @@ void Application::load()
     gregSprite.setTexture(gregTexture);
     gregSprite.setScale(0.5f, 0.5f);
     gregSprite.setPosition(sf::Vector2f(getSize().x / 2 - 64, 15));
+
+    gregHpBar.resize(sf::Vector2f(200, 20));
+    gregHpBar.place(sf::Vector2f(50, 50));
+    gregHpBar.setFillColor(sf::Color::Green);
 
     // initialise the area that the player soul can move within
     attackArea.setSize(sf::Vector2f(320, 240));
@@ -56,6 +62,12 @@ void Application::load()
 
 void Application::drawf()
 {
+    /*
+        Health bar has it's own draw
+        method where you pass draw target
+    */
+    gregHpBar.draw(*this);
+
     draw(gregSprite);
     draw(attackArea);
 
@@ -86,10 +98,17 @@ void Application::updatef()
         do whatever needs to be done when the player is
         currently choosing their actions
     */
-    if (gamePhase == CHOOSE) {
-
+    if (gamePhase == CHOOSE)
+    {
         if (fightBtn.isClicked(*this))
         {
+            srand(time(NULL)); // random seed
+            int dmg = rand() % 20 + 20; // random damage between 20-40
+
+            gregHpBar.setDamage(gregHp, dmg);
+
+            gregHp -= dmg;
+
             gamePhase = ATTACK;
         }
 

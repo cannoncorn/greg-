@@ -4,9 +4,11 @@
 #define _APPLICATION_H
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 #include <string>
 
 #include "Button.h"
+#include "HealthBar.h"
 
 class Application : public sf::RenderWindow
 {
@@ -21,6 +23,9 @@ private:
 
     sf::Sprite gregSprite; // the image of the enemy
     sf::Texture gregTexture; // the texture applied to the enemy sprite
+    int gregHp; // gregory's health
+
+    HealthBar gregHpBar; // the health bar for greg
 
     sf::Texture soulTexture; // re-usable texture for all undertale-style souls
     sf::Sprite playerSoul; // the player's moveable soul
