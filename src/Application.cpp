@@ -21,11 +21,11 @@ void Application::load()
 
     // initialise the greg sprite
     gregSprite.setTexture(gregTexture);
-    gregSprite.setScale(0.5f, 0.5f);
-    gregSprite.setPosition(sf::Vector2f(getSize().x / 2 - 64, 15));
+    gregSprite.setScale(0.45f, 0.45f);
+    gregSprite.setPosition(sf::Vector2f(getSize().x / 2 - 64, 10));
 
     gregHpBar.resize(sf::Vector2f(200, 20));
-    gregHpBar.place(sf::Vector2f(50, 50));
+    gregHpBar.place(sf::Vector2f((getSize().x / 2) - (gregHpBar.getSize().x / 2), 235));
     gregHpBar.setFillColor(sf::Color::Green);
 
     // initialise the area that the player soul can move within
@@ -103,7 +103,7 @@ void Application::updatef()
         if (fightBtn.isClicked(*this))
         {
             srand(time(NULL)); // random seed
-            int dmg = rand() % 20 + 20; // random damage between 20-40
+            int dmg = rand() % 10 + 25; // random damage between 25-35
 
             gregHpBar.setDamage(gregHp, dmg);
 
