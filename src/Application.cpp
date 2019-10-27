@@ -10,6 +10,7 @@ Application::Application()
     gamePhase = CHOOSE;
 
     playerVel = 3;
+    playerHp = 20;
 }
 
 void Application::load()
@@ -36,12 +37,21 @@ void Application::load()
     playerSoul.setScale(sf::Vector2f(1.5, 1.5));
     playerSoul.setPosition(sf::Vector2f(360, 360));
 
+    fightTexture.loadFromFile("assets/fight.png"); // get fight button image
     mercyTexture.loadFromFile("assets/mercy.png"); // get mercy button image
+
+    // size of buttons relative to size in pixels
+    const float buttonScaleFactor = 1.7;
+
+    // initialise fight button
+    fightBtn.setTexture(fightTexture);
+    fightBtn.setScale(sf::Vector2f(buttonScaleFactor, buttonScaleFactor));
+    fightBtn.setPosition(sf::Vector2f(180, getSize().y-90));
 
     // initialise mercy button
     mercyBtn.setTexture(mercyTexture);
-    mercyBtn.setScale(sf::Vector2f(1.7, 1.7));
-    mercyBtn.setPosition(sf::Vector2f(350, getSize().y-90));
+    mercyBtn.setScale(sf::Vector2f(buttonScaleFactor, buttonScaleFactor));
+    mercyBtn.setPosition(sf::Vector2f(360, getSize().y-90));
 }
 
 void Application::drawf()
@@ -51,6 +61,7 @@ void Application::drawf()
 
     if (gamePhase == CHOOSE)
     {
+        draw(fightBtn);
         draw(mercyBtn);
     }
 
@@ -76,6 +87,11 @@ void Application::updatef()
         currently choosing their actions
     */
     if (gamePhase == CHOOSE) {
+
+        if (fightBtn.isClicked(*this))
+        {
+            gamePhase = ATTACK;
+        }
 
         if (mercyBtn.isClicked(*this))
         {

@@ -25,11 +25,15 @@ private:
     sf::Texture soulTexture; // re-usable texture for all undertale-style souls
     sf::Sprite playerSoul; // the player's moveable soul
     int playerVel; // the player's speed
+    int playerHp; // the player's health
 
     sf::RectangleShape attackArea; // the area in which the player is held within
 
     sf::Texture mercyTexture; // the image for the mercy button
     Button mercyBtn; // the mercy button
+
+    sf::Texture fightTexture; // the image for the fight button
+    Button fightBtn; // the fight button
 
 public:
     Application(); // constructor
