@@ -1,5 +1,9 @@
 #include "Application.h"
 
+#ifdef _WIN32
+#include <windows.h>
+#endif // _WIN32
+
 /* Constants for game information */
 #define WIDTH 640
 #define HEIGHT 640
@@ -11,6 +15,10 @@ Application game;
 
 int main()
 {
+#ifdef _WIN32
+    SetConsoleTitleA("GregTale");
+#endif // _WIN32
+
     game.create(sf::VideoMode(WIDTH, HEIGHT), NAME, sf::Style::Close);
     game.setFramerateLimit(FPS);
 
