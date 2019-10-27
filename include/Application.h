@@ -4,7 +4,6 @@
 #define _APPLICATION_H
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
 #include <string>
 
 #include "Button.h"

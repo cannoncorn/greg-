@@ -1,7 +1,5 @@
 #include "Application.h"
 
-using namespace std;
-
 Application::Application()
 {
     attackIndex = 0; // start with first attack
@@ -87,8 +85,6 @@ void Application::drawf()
 
 void Application::updatef()
 {
-    cout << gregHp << endl;
-    
     // the rect that the playing area is located within
     sf::FloatRect areaRect = attackArea.getGlobalBounds();
 
