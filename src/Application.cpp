@@ -41,7 +41,7 @@ void Application::load()
     playerSoul.setTexture(soulTexture);
     playerSoul.setColor(sf::Color::Red);
     playerSoul.setScale(sf::Vector2f(1.5, 1.5));
-    playerSoul.setPosition(sf::Vector2f(360, 360));
+    playerSoul.setPosition(sf::Vector2f(310, 380));
 
     fightTexture.loadFromFile("assets/fight.png"); // get fight button image
     mercyTexture.loadFromFile("assets/mercy.png"); // get mercy button image
