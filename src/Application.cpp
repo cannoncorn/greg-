@@ -141,15 +141,15 @@ void Application::updatef()
         {
             canSpare = false;
 
+            hitSound.play();
+
             srand(time(NULL)); // random seed
             int dmg = rand() % 10 + 25; // random damage between 25-35
 
             gregHpBar.setDamage(gregHp, dmg);
-
             gregHp -= dmg;
 
             gamePhase = ATTACK;
-            
             attackClock.restart();
         }
 
@@ -157,7 +157,6 @@ void Application::updatef()
         if (mercyBtn.isClicked(*this))
         {
             gamePhase = ATTACK;
-
             attackClock.restart();
         }
     }
