@@ -1,10 +1,12 @@
 #include "Application.h"
 
+/* Constants for game information */
 #define WIDTH 640
 #define HEIGHT 640
 #define NAME "GregTale"
 #define FPS 60
 
+// instance of main game class
 Application game;
 
 int main()
@@ -12,7 +14,7 @@ int main()
     game.create(sf::VideoMode(WIDTH, HEIGHT), NAME, sf::Style::Close);
     game.setFramerateLimit(FPS);
 
-    game.load();
+    game.load(); // run frame 1 game loading code
 
     while (game.isOpen())
     {
@@ -25,10 +27,11 @@ int main()
             }
         }
 
+        // class update before drawing to the screen
         game.updatef();
 
-        game.clear(sf::Color(0, 0, 0));
-        game.drawf();
-        game.display();
+        game.clear(sf::Color(0, 0, 0)); // clear the screen
+        game.drawf(); // draw sprites and shapes to the screen
+        game.display(); // update display
     }
 }
