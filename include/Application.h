@@ -4,6 +4,8 @@
 #define _APPLICATION_H
 
 #include <SFML/Graphics.hpp>
+#include <SFML/Audio.hpp>
+#include <iostream>
 #include <string>
 
 #include "Button.h"
@@ -20,6 +22,8 @@ private:
 
     int gamePhase; // the current thing the player is doing
 
+    bool canSpare; // whether the player can spare greg or not
+
     sf::Sprite gregSprite; // the image of the enemy
     sf::Texture gregTexture; // the texture applied to the enemy sprite
     int gregHp; // gregory's health
@@ -31,6 +35,8 @@ private:
     int playerVel; // the player's speed
     int playerHp; // the player's health
 
+    HealthBar playerHpBar; // the player's HP bar
+
     sf::RectangleShape attackArea; // the area in which the player is held within
 
     sf::Texture mercyTexture; // the image for the mercy button
@@ -38,6 +44,18 @@ private:
 
     sf::Texture fightTexture; // the image for the fight button
     Button fightBtn; // the fight button
+
+    sf::SoundBuffer hitSoundBuf;
+    sf::Sound hitSound;
+
+    /* ATTACK CLOCK */
+    sf::Clock attackClock;
+
+    /* ATTACK TEXTURES*/
+    sf::Texture iceCreamVanTexture;
+
+    /* ATTACK SPRITES*/
+    sf::Sprite iceCreamVan;
 
 public:
     Application(); // constructor
@@ -55,6 +73,12 @@ public:
     enum gamePhases {
         CHOOSE,
         ATTACK
+    };
+
+    // different attacks
+    enum attacks {
+        ICECREAMVAN,
+        ICECONE
     };
 
 protected:

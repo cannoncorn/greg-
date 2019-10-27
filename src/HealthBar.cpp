@@ -29,6 +29,6 @@ void HealthBar::place(sf::Vector2f vec)
 
 void HealthBar::setDamage(int oldhp, int dmg)
 {
-    // width / 100 = the scale factor
-    this->setSize(sf::Vector2f((oldhp - dmg) * background.getSize().x / 100, background.getSize().y));
+    int scaleFactor = this->getSize().x / oldhp;
+    this->setSize(sf::Vector2f(this->getSize().x - dmg * scaleFactor, background.getSize().y));
 }
