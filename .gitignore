@@ -1,3 +1,9 @@
+#vscode
+.vscode/
+
+# scons
+.sconsign.dblite
+
 # Prerequisites
 *.d
 
