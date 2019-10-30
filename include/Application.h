@@ -45,8 +45,16 @@ private:
     sf::Texture fightTexture; // the image for the fight button
     Button fightBtn; // the fight button
 
-    sf::SoundBuffer hitSoundBuf;
-    sf::Sound hitSound;
+    sf::SoundBuffer hitSoundBuf; // buffer for hit sound
+    sf::Sound hitSound; // playerable hit sound object
+
+    sf::Texture gameoverTexture; // texture for gameover screen
+    sf::Texture genocideTexture; // texture for genocide ending screen
+    sf::Texture pacifistTexture; // texture for pacifist ending screen
+
+    sf::Sprite gameover; // gameover screen
+    sf::Sprite genocide; // genocide ending screen
+    sf::Sprite pacifist; // pacifist ending screen
 
     /* ATTACK CLOCK */
     sf::Clock attackClock;
@@ -83,7 +91,10 @@ public:
     */
     enum gamePhases {
         CHOOSE,
-        ATTACK
+        ATTACK,
+        DEATH,
+        PACIFIST,
+        GENOCIDE
     };
 
     // different attacks

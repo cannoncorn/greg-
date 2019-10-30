@@ -4,12 +4,12 @@ Application::Application()
 {
     gamePhase = CHOOSE;
 
-    attackCount = 0;
+    attackCount = 1;
 
     playerVel = 3;
     playerHp = 20;
 
-    gregHp = 25;
+    gregHp = 35;
 
     canSpare = true;
 
@@ -70,6 +70,26 @@ void Application::load()
     hitSoundBuf.loadFromFile("assets/hit.wav");
     hitSound.setBuffer(hitSoundBuf);
 
+    /* OUTCOME SCREEN TEXTURES */
+    gameoverTexture.loadFromFile("assets/gameover.png");
+    genocideTexture.loadFromFile("assets/genocide.png");
+    pacifistTexture.loadFromFile("assets/pacifist.png");
+
+    /* OUTCOME SCREENS */
+    const int screenScaleFactor = 640/128;
+
+    // game over
+    gameover.setTexture(gameoverTexture);
+    gameover.setScale(sf::Vector2f(screenScaleFactor, screenScaleFactor));
+
+    // genocide ending
+    genocide.setTexture(genocideTexture);
+    genocide.setScale(sf::Vector2f(screenScaleFactor, screenScaleFactor));
+
+    // pacifist ending
+    pacifist.setTexture(pacifistTexture);
+    pacifist.setScale(sf::Vector2f(screenScaleFactor, screenScaleFactor));
+
     /* ATTACK TEXTURES */
     iceCreamVanTexture.loadFromFile("assets/icecreamvan.png");
     iceConeTexture.loadFromFile("assets/cone.png");
@@ -117,6 +137,8 @@ void Application::load()
 
 void Application::drawf()
 {
+    draw(attackArea); // always on bottom
+    
     /*
         Health bar has it's own draw
         method where you pass draw target
@@ -135,7 +157,6 @@ void Application::drawf()
         draw(fightBtn);
         draw(mercyBtn);
     }
-
     /*
         draws whatever is attacking the player
     */
@@ -162,21 +183,31 @@ void Application::drawf()
         
         draw(playerSoul); // draw player
     }
-
-    draw(attackArea); // always on bottom
+    /*
+        draw the death screen
+    */
+    else if (gamePhase == DEATH)
+    {
+        draw(gameover);
+    }
+    /*
+        draw the genocide ending screen
+    */
+    else if (gamePhase == GENOCIDE)
+    {
+        draw(genocide);
+    }
+    /*
+        draw the pacifist ending screen
+    */
+    else if (gamePhase == PACIFIST)
+    {
+        draw(pacifist);
+    }
 }
 
 void Application::updatef()
 {
-    // the rect that the playing area is located within
-    sf::FloatRect areaRect = attackArea.getGlobalBounds();
-
-    // the rect that the player is located within
-    sf::FloatRect playerRect = playerSoul.getGlobalBounds();
-
-    // the thickness of the playing area's border
-    float areaThickness = attackArea.getOutlineThickness();
-
     /*
         do whatever needs to be done when the player is
         currently choosing their actions
@@ -210,6 +241,15 @@ void Application::updatef()
         the player is being attacked
     */
     else if (gamePhase == ATTACK) {
+
+        // the rect that the player is located within
+        sf::FloatRect playerRect = playerSoul.getGlobalBounds();
+
+        // the rect that the playing area is located within
+        sf::FloatRect areaRect = attackArea.getGlobalBounds();
+
+        // the thickness of the playing area's border
+        float areaThickness = attackArea.getOutlineThickness();
         
         // if the ice cream van is attacking
         if (attackIndex == ICECREAMVAN)
@@ -289,16 +329,37 @@ void Application::updatef()
 
         // check for keyboard input
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) & playerRect.top > areaRect.top+areaThickness)
+        {
             playerSoul.move(sf::Vector2f(0, -playerVel)); // move up
+        }
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) & playerRect.left > areaRect.left+areaThickness)
+        {
             playerSoul.move(sf::Vector2f(-playerVel, 0)); // move left
+        }
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) & playerRect.top+playerRect.height < areaRect.top+areaRect.height-areaThickness)
+        {
             playerSoul.move(sf::Vector2f(0, playerVel)); // move down
+        }
         
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) & playerRect.left+playerRect.width < areaRect.left+areaRect.width-areaThickness)
+        {
             playerSoul.move(sf::Vector2f(playerVel, 0)); // move right
+        }
+    }
+
+    if (playerHp <= 0)
+    {
+        gamePhase = DEATH;
+    }
+    if (canSpare & attackCount > 9)
+    {
+        gamePhase = PACIFIST;
+    }
+    if (gregHp <= 0)
+    {
+        gamePhase = GENOCIDE;
     }
 }
 
