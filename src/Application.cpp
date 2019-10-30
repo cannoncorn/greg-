@@ -203,15 +203,13 @@ void Application::updatef()
 
                 hitSound.play();
                 
-                attackIndex += 1; // go to next attack
-                gamePhase = CHOOSE; // go back to player choosing phase
+                nextAttack();
             }
 
             // when attack is over
             if (attackClock.getElapsedTime().asSeconds() > 3)
             {
-                attackIndex += 1; // go to next attack
-                gamePhase = CHOOSE; // go back to player choosing phase
+                nextAttack();
             }
 
         }
@@ -233,15 +231,13 @@ void Application::updatef()
 
                 hitSound.play();
 
-                attackIndex += 1; // go to next attack
-                gamePhase = CHOOSE; // go back to player choosing phase
+                nextAttack();
             }
 
             // when attack is over
             if (attackClock.getElapsedTime().asSeconds() > 3)
             {
-                attackIndex += 1; // go to next attack
-                gamePhase = CHOOSE; // go back to player choosing phase
+                nextAttack();
             }
         }
 
@@ -258,4 +254,16 @@ void Application::updatef()
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) & playerRect.left+playerRect.width < areaRect.left+areaRect.width-areaThickness)
             playerSoul.move(sf::Vector2f(playerVel, 0)); // move right
     }
+}
+
+void Application::nextAttack()
+{
+    attackIndex += 1; // go to next attack
+    gamePhase = CHOOSE; // go back to player choosing phase
+
+    iceCreamVan.setPosition(sf::Vector2f(500, 395)); // reset position
+
+    iceCone1.setPosition(sf::Vector2f(500, 280));
+    iceCone2.setPosition(sf::Vector2f(100, 370));
+    iceCone3.setPosition(sf::Vector2f(500, 450));
 }

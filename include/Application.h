@@ -70,6 +70,8 @@ public:
 
     void drawf(); // draws the items to the screen
 
+    void nextAttack(); // goes to next attack
+
     /*
         the different things that can
         be happening to the player
