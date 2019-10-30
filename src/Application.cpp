@@ -261,7 +261,13 @@ void Application::nextAttack()
     attackIndex += 1; // go to next attack
     gamePhase = CHOOSE; // go back to player choosing phase
 
-    iceCreamVan.setPosition(sf::Vector2f(500, 395)); // reset position
+    /* RESET PLAYER POSITION */
+
+    playerSoul.setPosition(sf::Vector2f(310, 380));
+
+    /* RESET POSITIONS OF ATTACKS */
+
+    iceCreamVan.setPosition(sf::Vector2f(500, 395));
 
     iceCone1.setPosition(sf::Vector2f(500, 280));
     iceCone2.setPosition(sf::Vector2f(100, 370));
