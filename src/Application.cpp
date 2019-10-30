@@ -2,17 +2,14 @@
 
 Application::Application()
 {
-    attackIndex = 0; // start with first attack
-
-    /*
-        start by letting the player choose mercy or fight
-    */
     gamePhase = CHOOSE;
+
+    attackCount = 0;
 
     playerVel = 3;
     playerHp = 20;
 
-    gregHp = 20;
+    gregHp = 25;
 
     canSpare = true;
 
@@ -76,6 +73,7 @@ void Application::load()
     /* ATTACK TEXTURES */
     iceCreamVanTexture.loadFromFile("assets/icecreamvan.png");
     iceConeTexture.loadFromFile("assets/cone.png");
+    pencilTexture.loadFromFile("assets/pencil.png");
 
     /* ATTACK SPRITES */
 
@@ -83,6 +81,7 @@ void Application::load()
     iceCreamVan.setTexture(iceCreamVanTexture);
     iceCreamVan.setScale(sf::Vector2f(8, 8));
     iceCreamVan.setPosition(sf::Vector2f(500, 395));
+    iceCreamVan.setInitPos();
 
     // ice cream cones
     const float coneScaleFactor = 2;
@@ -90,14 +89,30 @@ void Application::load()
     iceCone1.setTexture(iceConeTexture);
     iceCone1.setScale(sf::Vector2f(coneScaleFactor, coneScaleFactor));
     iceCone1.setPosition(sf::Vector2f(500, 280));
+    iceCone1.setInitPos(); // set initial position
 
     iceCone2.setTexture(iceConeTexture);
     iceCone2.setScale(sf::Vector2f(coneScaleFactor, coneScaleFactor));
     iceCone2.setPosition(sf::Vector2f(100, 370));
+    iceCone2.setInitPos(); // set initial position
 
     iceCone3.setTexture(iceConeTexture);
     iceCone3.setScale(sf::Vector2f(coneScaleFactor, coneScaleFactor));
     iceCone3.setPosition(sf::Vector2f(500, 450));
+    iceCone3.setInitPos(); // set initial position
+
+    // pencils
+    const float pencilScaleFactor = 2;
+
+    pencil1.setTexture(pencilTexture);
+    pencil1.setScale(sf::Vector2f(pencilScaleFactor, pencilScaleFactor));
+    pencil1.setPosition(sf::Vector2f(500, 300));
+    pencil1.setInitPos(); // set initial position
+
+    pencil2.setTexture(pencilTexture);
+    pencil2.setScale(sf::Vector2f(pencilScaleFactor, pencilScaleFactor));
+    pencil2.setPosition(sf::Vector2f(500, 380));
+    pencil2.setInitPos(); // set initial position
 }
 
 void Application::drawf()
@@ -137,6 +152,12 @@ void Application::drawf()
             draw(iceCone1);
             draw(iceCone2);
             draw(iceCone3); // draw ice cream cones
+        }
+        // if the pencils are attacking
+        else if(attackIndex == PENCILS)
+        {
+            draw(pencil1);
+            draw(pencil2); // draw pencils
         }
         
         draw(playerSoul); // draw player
@@ -240,6 +261,31 @@ void Application::updatef()
                 nextAttack();
             }
         }
+        // if the pencils are attacking
+        else if (attackIndex == PENCILS)
+        {
+            int velocity = 7; // how fast the pencils move
+
+            pencil1.move(sf::Vector2f(-velocity, 0));
+            pencil2.move(sf::Vector2f(-velocity, 0)); // move pencils
+
+            if (pencil1.getGlobalBounds().intersects(playerRect) // if touching pencil 1
+            | pencil2.getGlobalBounds().intersects(playerRect)) // if touching pencil 2
+            {
+                playerHpBar.setDamage(playerHp, 5); // update player HP bar
+                playerHp -= 5;
+
+                hitSound.play();
+
+                nextAttack();
+            }
+
+            // when attack is over
+            if (attackClock.getElapsedTime().asSeconds() > 1.5)
+            {
+                nextAttack();
+            }
+        }
 
         // check for keyboard input
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) & playerRect.top > areaRect.top+areaThickness)
@@ -259,6 +305,13 @@ void Application::updatef()
 void Application::nextAttack()
 {
     attackIndex += 1; // go to next attack
+    if (attackIndex > 2)
+    {
+        attackIndex = ICECREAMVAN;
+    }
+
+    attackCount += 1; // add 1 to amount of attacks
+
     gamePhase = CHOOSE; // go back to player choosing phase
 
     /* RESET PLAYER POSITION */
@@ -267,9 +320,12 @@ void Application::nextAttack()
 
     /* RESET POSITIONS OF ATTACKS */
 
-    iceCreamVan.setPosition(sf::Vector2f(500, 395));
+    iceCreamVan.reset();
 
-    iceCone1.setPosition(sf::Vector2f(500, 280));
-    iceCone2.setPosition(sf::Vector2f(100, 370));
-    iceCone3.setPosition(sf::Vector2f(500, 450));
+    iceCone1.reset();
+    iceCone2.reset();
+    iceCone3.reset();
+
+    pencil1.reset();
+    pencil2.reset();
 }

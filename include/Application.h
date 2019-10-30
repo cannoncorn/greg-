@@ -8,18 +8,19 @@
 #include <iostream>
 
 #include "Button.h"
+#include "Attack.h"
 #include "HealthBar.h"
 
 class Application : public sf::RenderWindow
 {
 private:
-    /*
-        The index of the current attack to keep
-        track of where the player is up to
-    */
-    int attackIndex;
+    // The amount of attacks performed by greg
+    unsigned int attackCount;
 
-    int gamePhase; // the current thing the player is doing
+    // The index of the current attack
+    unsigned int attackIndex;
+
+    unsigned int gamePhase; // the current thing the player is doing
 
     bool canSpare; // whether the player can spare greg or not
 
@@ -53,16 +54,20 @@ private:
     /* ATTACK TEXTURES*/
     sf::Texture iceCreamVanTexture;
     sf::Texture iceConeTexture;
+    sf::Texture pencilTexture;
 
     /* ATTACK SPRITES*/
-    sf::Sprite iceCreamVan;
+    Attack iceCreamVan;
 
-    sf::Sprite iceCone1;
-    sf::Sprite iceCone2;
-    sf::Sprite iceCone3;
+    Attack iceCone1;
+    Attack iceCone2;
+    Attack iceCone3;
+
+    Attack pencil1;
+    Attack pencil2;
 
 public:
-    Application(); // constructor
+    Application(); // construct variables and gamestates
 
     void load(); // called on first frame
 
@@ -84,7 +89,8 @@ public:
     // different attacks
     enum attacks {
         ICECREAMVAN,
-        ICECONE
+        ICECONE,
+        PENCILS
     };
 
 protected:
