@@ -25,15 +25,15 @@ private:
 
     sf::Sprite gregSprite; // the image of the enemy
     sf::Texture gregTexture; // the texture applied to the enemy sprite
+    
     int gregHp; // gregory's health
-
     HealthBar gregHpBar; // the health bar for greg
 
     sf::Texture soulTexture; // re-usable texture for all undertale-style souls
     sf::Sprite playerSoul; // the player's moveable soul
     int playerVel; // the player's speed
-    int playerHp; // the player's health
 
+    int playerHp; // the player's health
     HealthBar playerHpBar; // the player's HP bar
 
     sf::RectangleShape attackArea; // the area in which the player is held within
