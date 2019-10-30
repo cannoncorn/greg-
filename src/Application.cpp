@@ -75,6 +75,7 @@ void Application::load()
 
     /* ATTACK TEXTURES */
     iceCreamVanTexture.loadFromFile("assets/icecreamvan.png");
+    iceConeTexture.loadFromFile("assets/cone.png");
 
     /* ATTACK SPRITES */
 
@@ -82,6 +83,21 @@ void Application::load()
     iceCreamVan.setTexture(iceCreamVanTexture);
     iceCreamVan.setScale(sf::Vector2f(8, 8));
     iceCreamVan.setPosition(sf::Vector2f(500, 395));
+
+    // ice cream cones
+    const float coneScaleFactor = 2;
+
+    iceCone1.setTexture(iceConeTexture);
+    iceCone1.setScale(sf::Vector2f(coneScaleFactor, coneScaleFactor));
+    iceCone1.setPosition(sf::Vector2f(500, 280));
+
+    iceCone2.setTexture(iceConeTexture);
+    iceCone2.setScale(sf::Vector2f(coneScaleFactor, coneScaleFactor));
+    iceCone2.setPosition(sf::Vector2f(100, 370));
+
+    iceCone3.setTexture(iceConeTexture);
+    iceCone3.setScale(sf::Vector2f(coneScaleFactor, coneScaleFactor));
+    iceCone3.setPosition(sf::Vector2f(500, 450));
 }
 
 void Application::drawf()
@@ -110,10 +126,20 @@ void Application::drawf()
     */
     else if (gamePhase == ATTACK)
     {
+        // if the ice cream van is attacking
         if(attackIndex == ICECREAMVAN)
-            draw(iceCreamVan);
+        {
+            draw(iceCreamVan); // draw ice cream van
+        }
+        // if the ice cream cones are attacking
+        else if(attackIndex == ICECONE)
+        {
+            draw(iceCone1);
+            draw(iceCone2);
+            draw(iceCone3); // draw ice cream cones
+        }
         
-        draw(playerSoul);
+        draw(playerSoul); // draw player
     }
 
     draw(attackArea); // always on bottom
@@ -147,7 +173,7 @@ void Application::updatef()
             int dmg = rand() % 10 + 25; // random damage between 25-35
 
             gregHpBar.setDamage(gregHp, dmg);
-            gregHp -= dmg;
+            gregHp -= dmg; // do damage
 
             gamePhase = ATTACK;
             attackClock.restart();
@@ -166,18 +192,6 @@ void Application::updatef()
         the player is being attacked
     */
     else if (gamePhase == ATTACK) {
-
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) & playerRect.top > areaRect.top+areaThickness)
-            playerSoul.move(sf::Vector2f(0, -playerVel));
-        
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) & playerRect.left > areaRect.left+areaThickness)
-            playerSoul.move(sf::Vector2f(-playerVel, 0));
-        
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) & playerRect.top+playerRect.height < areaRect.top+areaRect.height-areaThickness)
-            playerSoul.move(sf::Vector2f(0, playerVel));
-        
-        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) & playerRect.left+playerRect.width < areaRect.left+areaRect.width-areaThickness)
-            playerSoul.move(sf::Vector2f(playerVel, 0));
         
         // if the ice cream van is attacking
         if (attackIndex == ICECREAMVAN)
@@ -185,24 +199,66 @@ void Application::updatef()
             iceCreamVan.move(sf::Vector2f(-4, 0));
 
             // if the player is touching it
-            if (iceCreamVan.getGlobalBounds().intersects(playerSoul.getGlobalBounds()))
+            if (iceCreamVan.getGlobalBounds().intersects(playerRect))
             {
                 playerHpBar.setDamage(playerHp, 5); // update player HP bar
                 playerHp -= 5;
 
                 hitSound.play();
                 
-                attackIndex = ICECONE; // go to next attack
+                attackIndex += 1; // go to next attack
                 gamePhase = CHOOSE; // go back to player choosing phase
             }
 
             // when attack is over
             if (attackClock.getElapsedTime().asSeconds() > 3)
             {
-                attackIndex = ICECONE; // go to next attack
+                attackIndex += 1; // go to next attack
                 gamePhase = CHOOSE; // go back to player choosing phase
             }
 
         }
+        // if the cones are attacking
+        else if (attackIndex == ICECONE)
+        {
+            int velocity = 3; // how fast the ice cream cones move
+
+            iceCone1.move(sf::Vector2f(-velocity, 0));
+            iceCone2.move(sf::Vector2f(velocity, 0));
+            iceCone3.move(sf::Vector2f(-velocity, 0)); // move cones
+
+            if (iceCone1.getGlobalBounds().intersects(playerRect) // if touching ice cone 1
+            | iceCone2.getGlobalBounds().intersects(playerRect) // if touching ice cone 2
+            | iceCone3.getGlobalBounds().intersects(playerRect)) // if touching ice cone 3
+            {
+                playerHpBar.setDamage(playerHp, 5); // update player HP bar
+                playerHp -= 5;
+
+                hitSound.play();
+
+                attackIndex += 1; // go to next attack
+                gamePhase = CHOOSE; // go back to player choosing phase
+            }
+
+            // when attack is over
+            if (attackClock.getElapsedTime().asSeconds() > 3)
+            {
+                attackIndex += 1; // go to next attack
+                gamePhase = CHOOSE; // go back to player choosing phase
+            }
+        }
+
+        // check for keyboard input
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up) & playerRect.top > areaRect.top+areaThickness)
+            playerSoul.move(sf::Vector2f(0, -playerVel)); // move up
+        
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left) & playerRect.left > areaRect.left+areaThickness)
+            playerSoul.move(sf::Vector2f(-playerVel, 0)); // move left
+        
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down) & playerRect.top+playerRect.height < areaRect.top+areaRect.height-areaThickness)
+            playerSoul.move(sf::Vector2f(0, playerVel)); // move down
+        
+        if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right) & playerRect.left+playerRect.width < areaRect.left+areaRect.width-areaThickness)
+            playerSoul.move(sf::Vector2f(playerVel, 0)); // move right
     }
 }

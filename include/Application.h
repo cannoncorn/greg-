@@ -6,7 +6,6 @@
 #include <SFML/Graphics.hpp>
 #include <SFML/Audio.hpp>
 #include <iostream>
-#include <string>
 
 #include "Button.h"
 #include "HealthBar.h"
@@ -53,9 +52,14 @@ private:
 
     /* ATTACK TEXTURES*/
     sf::Texture iceCreamVanTexture;
+    sf::Texture iceConeTexture;
 
     /* ATTACK SPRITES*/
     sf::Sprite iceCreamVan;
+
+    sf::Sprite iceCone1;
+    sf::Sprite iceCone2;
+    sf::Sprite iceCone3;
 
 public:
     Application(); // constructor
