@@ -10,13 +10,13 @@
 #define NAME "GregTale"
 #define FPS 60
 
-// instance of main game class
-Application game;
-
 int main()
 {
+    // the main instance
+    Application game;
+
 #ifdef _WIN32
-    SetConsoleTitleA("GregTale");
+    SetConsoleTitleA(NAME);
 #endif // _WIN32
 
     game.create(sf::VideoMode(WIDTH, HEIGHT), NAME, sf::Style::Close);
