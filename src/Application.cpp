@@ -138,7 +138,7 @@ void Application::load()
 void Application::drawf()
 {
     draw(attackArea); // always on bottom
-    
+
     /*
         Health bar has it's own draw
         method where you pass draw target
@@ -349,17 +349,20 @@ void Application::updatef()
         }
     }
 
+    // if the player has no HP
     if (playerHp <= 0)
     {
-        gamePhase = DEATH;
+        gamePhase = DEATH; // death
     }
-    if (canSpare & attackCount > 9)
+    // if the player hasnt attacked greg and has survived enough attacks
+    else if (canSpare & attackCount > 9)
     {
-        gamePhase = PACIFIST;
+        gamePhase = PACIFIST; // true pacifist ending
     }
-    if (gregHp <= 0)
+    // if greg has no HP
+    else if (gregHp <= 0)
     {
-        gamePhase = GENOCIDE;
+        gamePhase = GENOCIDE; // genocide ending
     }
 }
 
