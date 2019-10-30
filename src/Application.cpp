@@ -12,7 +12,7 @@ Application::Application()
     playerVel = 3;
     playerHp = 20;
 
-    gregHp = 100;
+    gregHp = 20;
 
     canSpare = true;
 
@@ -169,11 +169,8 @@ void Application::updatef()
 
             hitSound.play();
 
-            srand(time(NULL)); // random seed
-            int dmg = rand() % 10 + 25; // random damage between 25-35
-
-            gregHpBar.setDamage(gregHp, dmg);
-            gregHp -= dmg; // do damage
+            gregHpBar.setDamage(gregHp, 5);
+            gregHp -= 5; // do damage
 
             gamePhase = ATTACK;
             attackClock.restart();
