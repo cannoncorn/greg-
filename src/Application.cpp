@@ -76,19 +76,15 @@ void Application::load()
     pacifistTexture.loadFromFile("assets/pacifist.png");
 
     /* OUTCOME SCREENS */
-    const int screenScaleFactor = 640/128;
 
     // game over
     gameover.setTexture(gameoverTexture);
-    gameover.setScale(sf::Vector2f(screenScaleFactor, screenScaleFactor));
 
     // genocide ending
     genocide.setTexture(genocideTexture);
-    genocide.setScale(sf::Vector2f(screenScaleFactor, screenScaleFactor));
 
     // pacifist ending
     pacifist.setTexture(pacifistTexture);
-    pacifist.setScale(sf::Vector2f(screenScaleFactor, screenScaleFactor));
 
     /* ATTACK TEXTURES */
     iceCreamVanTexture.loadFromFile("assets/icecreamvan.png");
