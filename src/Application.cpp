@@ -1,5 +1,7 @@
 #include "Application.h"
 
+using namespace std;
+
 Application::Application()
 {
     gamePhase = CHOOSE;
@@ -14,11 +16,27 @@ Application::Application()
     canSpare = true;
 
     attackIndex = ICECREAMVAN;
+
+    genocideMessage += "You are but a mortal.\n";
+    genocideMessage += "But you still defeated me...";
+
+    pacifistMessage += "Maybe there is more to\n";
+    pacifistMessage += "to life than killing and\n";
+    pacifistMessage += "kidnapping people...";
 }
 
 void Application::load()
 {
     gregTexture.loadFromFile("assets/greg.png"); // get greg image
+
+    messageFont.loadFromFile("assets/fonts/bst-light.ttf"); // load greg font
+
+    // initialise message text
+    messageText.setFont(messageFont);
+    messageText.setCharacterSize(20);
+    messageText.setStyle(sf::Text::Bold);
+    messageText.setFillColor(sf::Color::Black);
+    messageText.setPosition(420, 50);
 
     // initialise the greg sprite
     gregSprite.setTexture(gregTexture);
@@ -69,6 +87,12 @@ void Application::load()
     // initialise the sound to be played when the player is hit
     hitSoundBuf.loadFromFile("assets/hit.wav");
     hitSound.setBuffer(hitSoundBuf);
+
+    /* CUTSCENE SPEECH BUBBLE */
+    speechBubbleTexture.loadFromFile("assets/textbox.png");
+    speechBubble.setTexture(speechBubbleTexture);
+    speechBubble.setScale(sf::Vector2f(8, 8));
+    speechBubble.setPosition(sf::Vector2f(380, 40));
 
     /* OUTCOME SCREEN TEXTURES */
     gameoverTexture.loadFromFile("assets/gameover.png");
@@ -199,6 +223,14 @@ void Application::drawf()
     else if (gamePhase == PACIFIST)
     {
         draw(pacifist);
+    }
+    /*
+        draw what is needed for both cutscenes
+    */
+    else if (gamePhase == PACIFISTCUT | gamePhase == GENOCIDECUT)
+    {
+        draw(speechBubble);
+        draw(messageText);
     }
 }
 
@@ -345,20 +377,49 @@ void Application::updatef()
         }
     }
 
+    /*
+        do what needs to be done during
+        pacifist ending cutscene
+    */
+    else if (gamePhase == PACIFISTCUT)
+    {
+        // set message text string
+        messageText.setString(pacifistMessage);
+        if (cutsceneClock.getElapsedTime().asSeconds() > 4)
+        {
+            gamePhase = PACIFIST; // go to end screen
+        }
+    }
+
+    /*
+        do what needs to be done during genocide ending cutscene
+    */
+    else if (gamePhase == GENOCIDECUT)
+    {
+        // set message text string
+        messageText.setString(genocideMessage);
+        if (cutsceneClock.getElapsedTime().asSeconds() > 4)
+        {
+            gamePhase = GENOCIDE; // go to end screen
+        }
+    }
+
     // if the player has no HP
     if (playerHp <= 0)
     {
         gamePhase = DEATH; // death
     }
     // if the player hasnt attacked greg and has survived enough attacks
-    else if (canSpare & attackCount > 9)
+    else if (canSpare & attackCount > 9 & gamePhase == ATTACK)
     {
-        gamePhase = PACIFIST; // true pacifist ending
+        gamePhase = PACIFISTCUT; // true pacifist ending
+        cutsceneClock.restart(); // start cutscene end timer
     }
     // if greg has no HP
-    else if (gregHp <= 0)
+    else if (gregHp <= 0 & gamePhase == ATTACK)
     {
-        gamePhase = GENOCIDE; // genocide ending
+        gamePhase = GENOCIDECUT; // genocide ending
+        cutsceneClock.restart(); // start cutscene end timer
     }
 }
 

@@ -24,6 +24,13 @@ private:
 
     bool canSpare; // whether the player can spare greg or not
 
+    sf::Font messageFont; // the font greg speaks in
+    sf::Text messageText; // the text that greg is saying
+    sf::Clock cutsceneClock; // the timer for when the cutscenes end
+
+    std::string genocideMessage; // what greg says at end of genocide run
+    std::string pacifistMessage; // what greg says at end of pacifist run
+
     sf::Sprite gregSprite; // the image of the enemy
     sf::Texture gregTexture; // the texture applied to the enemy sprite
     
@@ -47,6 +54,10 @@ private:
 
     sf::SoundBuffer hitSoundBuf; // buffer for hit sound
     sf::Sound hitSound; // playerable hit sound object
+
+    /* CUTSCENE SPEECH BUBBLE */
+    sf::Texture speechBubbleTexture;
+    sf::Sprite speechBubble;
 
     sf::Texture gameoverTexture; // texture for gameover screen
     sf::Texture genocideTexture; // texture for genocide ending screen
@@ -90,11 +101,9 @@ public:
         be happening to the player
     */
     enum gamePhases {
-        CHOOSE,
-        ATTACK,
-        DEATH,
-        PACIFIST,
-        GENOCIDE
+        CHOOSE, ATTACK,
+        GENOCIDECUT, PACIFISTCUT,
+        DEATH, PACIFIST, GENOCIDE
     };
 
     // different attacks
