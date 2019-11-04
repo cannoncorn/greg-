@@ -17,8 +17,8 @@ Application::Application()
 
     attackIndex = ICECREAMVAN;
 
-    genocideMessage += "You are but a mortal.\n";
-    genocideMessage += "But you still defeated me...";
+    genocideMessage += "You are but a mere mortal.\n";
+    genocideMessage += "Yet you still defeated me...";
 
     pacifistMessage += "Maybe there is more to\n";
     pacifistMessage += "to life than killing and\n";
@@ -36,7 +36,7 @@ void Application::load()
     messageText.setCharacterSize(20);
     messageText.setStyle(sf::Text::Bold);
     messageText.setFillColor(sf::Color::Black);
-    messageText.setPosition(420, 50);
+    messageText.setPosition(410, 50);
 
     // initialise the greg sprite
     gregSprite.setTexture(gregTexture);
