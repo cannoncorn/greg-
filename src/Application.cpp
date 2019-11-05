@@ -414,17 +414,20 @@ void Application::updatef()
     // if the player has no HP
     if (playerHp <= 0)
     {
-        gamePhase = DEATH; // death
+        musicTrack.stop(); // stop playing music
+        gamePhase = DEATH; // player death
     }
     // if the player hasnt attacked greg and has survived enough attacks
     else if (canSpare & attackCount > 9 & gamePhase == ATTACK)
     {
+        musicTrack.stop(); // stop playing music
         gamePhase = PACIFISTCUT; // true pacifist ending
         cutsceneClock.restart(); // start cutscene end timer
     }
     // if greg has no HP
     else if (gregHp <= 0 & gamePhase == ATTACK)
     {
+        musicTrack.stop(); // stop playing music
         gamePhase = GENOCIDECUT; // genocide ending
         cutsceneClock.restart(); // start cutscene end timer
     }
