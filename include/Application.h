@@ -14,6 +14,8 @@
 class Application : public sf::RenderWindow
 {
 private:
+    sf::Music musicTrack; // the music to be played while fighting
+
     // The amount of attacks performed by greg
     unsigned int attackCount;
 

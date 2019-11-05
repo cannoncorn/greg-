@@ -27,9 +27,14 @@ Application::Application()
 
 void Application::load()
 {
+    // initialise music track
+    musicTrack.setLoop(true);
+    musicTrack.openFromFile("assets/music.wav");
+
     gregTexture.loadFromFile("assets/greg.png"); // get greg image
 
     messageFont.loadFromFile("assets/fonts/bst-light.ttf"); // load greg font
+
 
     // initialise message text
     messageText.setFont(messageFont);
@@ -153,6 +158,8 @@ void Application::load()
     pencil2.setScale(sf::Vector2f(pencilScaleFactor, pencilScaleFactor));
     pencil2.setPosition(sf::Vector2f(500, 380));
     pencil2.setInitPos(); // set initial position
+
+    musicTrack.play();
 }
 
 void Application::drawf()
