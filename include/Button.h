@@ -14,7 +14,7 @@ public:
     bool isClicked(sf::Window &win);
 
 protected:
-    sf::Clock clock;
+    sf::Clock clickClock;
 };
 
 #endif // _BUTTON_H
