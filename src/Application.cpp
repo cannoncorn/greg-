@@ -132,7 +132,7 @@ void Application::load()
     // ice cream van
     iceCreamVan.setTexture(iceCreamVanTexture);
     iceCreamVan.setScale(sf::Vector2f(8, 8));
-    iceCreamVan.setPosition(sf::Vector2f(500, 395));
+    iceCreamVan.setPosition(sf::Vector2f(500, 350));
     iceCreamVan.setInitPos();
 
     // ice cream cones
