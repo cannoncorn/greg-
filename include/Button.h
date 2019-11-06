@@ -4,7 +4,6 @@
 #define _BUTTON_H
 
 #include <SFML/Graphics.hpp>
-#include <iostream>
 
 class Button : public sf::Sprite
 {
