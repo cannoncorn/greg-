@@ -57,6 +57,10 @@ private:
     sf::SoundBuffer hitSoundBuf; // buffer for hit sound
     sf::Sound hitSound; // playerable hit sound object
 
+    bool isMuted; // if the sound is muted
+    sf::Texture soundButtonTexture; // texture for mute button
+    Button soundButton; // sound button
+
     /* CUTSCENE SPEECH BUBBLE */
     sf::Texture speechBubbleTexture;
     sf::Sprite speechBubble;

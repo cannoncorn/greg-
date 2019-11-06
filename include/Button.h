@@ -4,6 +4,7 @@
 #define _BUTTON_H
 
 #include <SFML/Graphics.hpp>
+#include <iostream>
 
 class Button : public sf::Sprite
 {
@@ -14,6 +15,7 @@ public:
     bool isClicked(sf::Window &win);
 
 protected:
+    sf::Clock clock;
 };
 
 #endif // _BUTTON_H

@@ -15,6 +15,8 @@ Application::Application()
 
     canSpare = true;
 
+    isMuted = false;
+
     attackIndex = ICECREAMVAN;
 
     genocideMessage += "You are but a mere mortal.\n";
@@ -35,6 +37,13 @@ void Application::load()
 
     messageFont.loadFromFile("assets/fonts/bst-light.ttf"); // load greg font
 
+    soundButtonTexture.loadFromFile("assets/soundbutton.png"); // load mute button texture
+    
+    /* Initialise the Mute button */
+    soundButton.setTexture(soundButtonTexture);
+    soundButton.setTextureRect(sf::IntRect(0, 0, 16, 16));
+    soundButton.setScale(sf::Vector2f(3.5, 3.5));
+    soundButton.setPosition(sf::Vector2f(10, 10));
 
     // initialise message text
     messageText.setFont(messageFont);
@@ -174,6 +183,8 @@ void Application::drawf()
     playerHpBar.draw(*this);
 
     draw(gregSprite); // draw greg
+
+    draw(soundButton); // draw the mute button
 
     /*
         draws what the player needs
@@ -408,6 +419,26 @@ void Application::updatef()
         if (cutsceneClock.getElapsedTime().asSeconds() > 4)
         {
             gamePhase = GENOCIDE; // go to end screen
+        }
+    }
+
+    /* if the mute button is clicked */
+    if (soundButton.isClicked(*this))
+    {
+        // if currently not muted
+        if (!isMuted)
+        {
+            soundButton.setTextureRect(sf::IntRect(16, 0, 16, 16));
+            musicTrack.setVolume(0);
+
+            isMuted = true;
+        }
+        else // if currently muted
+        {
+            soundButton.setTextureRect(sf::IntRect(0, 0, 16, 16));
+            musicTrack.setVolume(100);
+
+            isMuted = false;
         }
     }
 
