@@ -13,7 +13,6 @@
 int main()
 {
 #ifdef _WIN32
-    SetConsoleTitleA(NAME);
     FreeConsole();
 #endif // _WIN32
 
