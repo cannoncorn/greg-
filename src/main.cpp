@@ -1,7 +1,7 @@
 #include "Application.h"
 
 #ifdef _WIN32
-#include <windows.h>
+#include <Windows.h>
 #endif // _WIN32
 
 /* Constants for game information */
@@ -12,12 +12,13 @@
 
 int main()
 {
-    // the main instance
-    Application game;
-
 #ifdef _WIN32
     SetConsoleTitleA(NAME);
+    FreeConsole();
 #endif // _WIN32
+
+    // the main instance
+    Application game;
 
     game.create(sf::VideoMode(WIDTH, HEIGHT), NAME, sf::Style::Close);
     game.setFramerateLimit(FPS);
